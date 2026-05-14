@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Produkter - CloudStore</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>&#9729; CloudStore</h1>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logga ut</button>
+    </form>
+
+    <h2>Produkter</h2>
+    <div class="products-grid">
+        <div th:each="product : ${products}" class="product-card">
+            <img th:src="${product['image']}" th:alt="${product['title']}"/>
+            <h3 th:text="${product['title']}"></h3>
+            <p th:text="${product['price']} + ' kr'"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CloudStore – Logga in</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body class="auth-page">
+
+<div class="auth-container">
+    <div class="auth-logo">☁ CloudStore</div>
+    <h1 class="auth-title">Logga in</h1>
+
+    <div th:if="${errorMsg}" class="alert alert-error" th:text="${errorMsg}"></div>
+    <div th:if="${logoutMsg}" class="alert alert-success" th:text="${logoutMsg}"></div>
+    <div th:if="${successMsg}" class="alert alert-success" th:text="${successMsg}"></div>
+
+    <form th:action="@{/login}" method="post" class="auth-form">
+        <div class="form-group">
+            <label for="username">Användarnamn</label>
+            <input type="text" id="username" name="username"
+                   placeholder="Ditt användarnamn" required autofocus/>
+        </div>
+        <div class="form-group">
+            <label for="password">Lösenord</label>
+            <input type="password" id="password" name="password"
+                   placeholder="Ditt lösenord" required/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Logga in</button>
+    </form>
+
+    <p class="auth-link">
+        Inget konto? <a th:href="@{/register}">Registrera dig här</a>
+    </p>
+</div>
+
+</body>
+</html>

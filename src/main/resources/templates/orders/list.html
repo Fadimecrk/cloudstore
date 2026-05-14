@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CloudStore – Produkter</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<nav class="navbar">
+    <a th:href="@{/templates/products}" class="nav-logo">☁ CloudStore</a>
+    <div class="nav-links">
+        <a th:href="@{/templates/products}">Produkter</a>
+        <a th:href="@{/templates/orders}">Mina beställningar</a>
+        <span sec:authentication="name" class="nav-user"></span>
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit" class="btn btn-outline btn-sm">Logga ut</button>
+        </form>
+    </div>
+</nav>
+
+<main class="container">
+    <h1 class="page-title">Produkter</h1>
+
+    <div th:if="${successMsg}" class="alert alert-success" th:text="${successMsg}"></div>
+    <div th:if="${errorMsg}"   class="alert alert-error"   th:text="${errorMsg}"></div>
+
+    <div class="category-bar">
+        <a th:href="@{/templates/products}"
+           th:classappend="${activeCategory == ''} ? 'active' : ''">Alla</a>
+        <a th:each="cat : ${categories}"
+           th:href="@{/products(category=${cat})}"
+           th:text="${cat}"
+           th:classappend="${activeCategory == cat} ? 'active' : ''"></a>
+    </div>
+
+    <div class="product-grid">
+        <div th:each="p : ${products}" class="product-card">
+            <a th:href="@{/products/{id}(id=${p['id']})}">
+                <img th:src="${p['image']}" th:alt="${p['title']}" class="product-img"/>
+            </a>
+            <div class="product-info">
+                <p class="product-category" th:text="${p['category']}"></p>
+                <h3 class="product-title">
+                    <a th:href="@{/products/{id}(id=${p['id']})}" th:text="${p['title']}"></a>
+                </h3>
+                <p class="product-price" th:text="'$' + ${p['price']}"></p>
+            </div>
+            <div class="product-actions">
+                <form th:action="@{/templates/orders}" method="post">
+                    <input type="hidden" name="productId" th:value="${p['id']}"/>
+                    <input type="hidden" name="quantity" value="1"/>
+                    <button type="submit" class="btn btn-primary btn-full">Lägg i korg</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(products)}" class="empty-state">
+        <p>Inga produkter hittades.</p>
+    </div>
+</main>
+</body>
+</html>
