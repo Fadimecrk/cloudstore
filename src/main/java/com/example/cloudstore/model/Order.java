@@ -24,11 +24,10 @@ public class Order {
         this.productPrice = productPrice;
         this.orderDate = LocalDateTime.now();
     }
-cat > ~/Downloads/cloudstore/src/main/java/com/example/cloudstore/repository/OrderRepository.java << 'EOF'
-package com.example.cloudstore.repository;
 
-import com.example.cloudstore.model.Order;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface OrderRepository extends JpaRepository<Order, Long> {
+    public Long getId() { return id; }
+    public String getUsername() { return username; }
+    public String getProductTitle() { return productTitle; }
+    public Double getProductPrice() { return productPrice; }
+    public LocalDateTime getOrderDate() { return orderDate; }
 }
