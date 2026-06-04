@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Produkter</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<h1>Produkter</h1>
+<a th:href="@{/logout}">Logga ut</a>
+<div th:each="product : ${products}">
+    <h3 th:text="${product.title}"></h3>
+    <p th:text="${product.price} + ' kr'"></p>
+    <img th:src="${product.image}" width="100"/>
+    <hr/>
+</div>
+</body>
+</html>
