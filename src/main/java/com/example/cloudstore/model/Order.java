@@ -1,11 +1,8 @@
 package com.example.cloudstore.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -14,34 +11,24 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Integer productId;
-
-    @Column(nullable = false, length = 200)
+    private String username;
     private String productTitle;
+    private Double productPrice;
+    private LocalDateTime orderDate;
 
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal price;
+    public Order() {}
 
-    @Column(nullable = false)
-    private Integer quantity;
-
-    @Column(nullable = false)
-    private LocalDateTime orderedAt = LocalDateTime.now();
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private OrderStatus status = OrderStatus.PENDING;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    public enum OrderStatus {
-        PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
+    public Order(String username, String productTitle, Double productPrice) {
+        this.username = username;
+        this.productTitle = productTitle;
+        this.productPrice = productPrice;
+        this.orderDate = LocalDateTime.now();
     }
+cat > ~/Downloads/cloudstore/src/main/java/com/example/cloudstore/repository/OrderRepository.java << 'EOF'
+package com.example.cloudstore.repository;
 
-    public BigDecimal getTotalPrice() {
-        return price.multiply(BigDecimal.valueOf(quantity));
-    }
+import com.example.cloudstore.model.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
 }
