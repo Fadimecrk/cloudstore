@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Produkter</title>
     <meta charset="UTF-8"/>
@@ -8,10 +7,20 @@
 <body>
 <h1>Produkter</h1>
 <a th:href="@{/logout}">Logga ut</a>
+
+<div th:if="${message}" style="color:green; font-weight:bold;">
+    <p th:text="${message}"></p>
+</div>
+
 <div th:each="product : ${products}">
     <h3 th:text="${product.title}"></h3>
     <p th:text="${product.price} + ' kr'"></p>
     <img th:src="${product.image}" width="100"/>
+    <form th:action="@{/order}" method="post">
+        <input type="hidden" name="productTitle" th:value="${product.title}"/>
+        <input type="hidden" name="productPrice" th:value="${product.price}"/>
+        <button type="submit">Bestall</button>
+    </form>
     <hr/>
 </div>
 </body>
